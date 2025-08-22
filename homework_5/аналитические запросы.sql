@@ -48,7 +48,7 @@ MAX(fb.client_count) AS largest_group,-- здесь найдем самую бо
 COUNT(*) AS successful_bookings --здесь мы посчитаем все общее кол-во броней в том или ином месте, а после сортировки останутся только успешные
 FROM Fact_Booking fb 
 INNER JOIN Dim_Table dt ON fb.table_sk = dt.table_sk---- создаем связь со справочником столиков для определения зоны
-WHERE fb.status = 'Completed' -- фильтруем только те брони, где киенты действительно уже пришли. Бывают же и отмененные брони, и запланированные
+WHERE fb.status = 'Completed'AND fb.valid_to IS NULL --ЗДЕСЬ ДОБАВИЛА ПРОВЕРКУ НА АКТУАЛЬНОСТЬ БРОНИ
 GROUP BY dt.zone -- группируем по зоне ресторана все успешные визиты
 ORDER BY average_group_size DESC; -- сделаем сортировку так, чтобы мы видели в верху зону, в которой бронировали столики самые большие компании
 

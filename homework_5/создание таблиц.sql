@@ -4,11 +4,14 @@ CREATE TABLE Dim_Date (
     day_of_week VARCHAR(15) NOT NULL,
     month VARCHAR(15) NOT NULL,
     is_it_holiday VARCHAR(3) NOT NULL,
-    season VARCHAR(10) NULL
+    season VARCHAR(10) NULL,
+    month_day INT NOT NULL,
+    month_int INT NOT NULL,
+    Year INT NOT NULL
 );
 CREATE TABLE Dim_Table (
     table_sk INT NOT NULL PRIMARY KEY,
-    source_table_id INT NOT NULL,
+    source_table_id VARCHAR(10), NOT NULL,
     number INT NOT NULL,
     zone VARCHAR(50) NOT NULL,
     count_of_people INT NOT NULL,
@@ -21,14 +24,12 @@ CREATE TABLE Dim_Time (
 );
 CREATE TABLE Dim_Client (
     client_sk INT NOT NULL PRIMARY KEY,
-    source_client_id INT NOT NULL UNIQUE,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     phone_number VARCHAR(15) NOT NULL UNIQUE
 );
 CREATE TABLE Dim_Staff (
     staff_sk INT NOT NULL PRIMARY KEY,
-    source_staff_id INT NOT NULL UNIQUE,
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL
 );
@@ -43,6 +44,9 @@ CREATE TABLE Fact_Booking (
     client_count INT NOT NULL ,
     status VARCHAR(10) NOT null ,
     deposit DECIMAL(10,2) NULL DEFAULT 0,
+    ivent VARCHAR(50), 
+    valid_from TIMESTAMP, NOT NULL
+    valid_to TIMESTAMP
    
     CONSTRAINT FK_FactBooking_DimDate FOREIGN KEY (date_sk) --это все нужно для определения внешних ключей(наверное, надо указывать)
         REFERENCES Dim_Date(date_sk),
